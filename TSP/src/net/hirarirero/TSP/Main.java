@@ -16,6 +16,9 @@ public class Main {
 		for(Point p:ls){
 			System.out.println(p);
 		}
+		DistanceMap m=new DistanceMap(ls);
+		m.culcDistance();
+		m.printAll();
 	}
 
 }
