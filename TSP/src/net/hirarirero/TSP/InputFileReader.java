@@ -27,9 +27,9 @@ public class InputFileReader {
 		}
 	}
 
-	public List<Point> readFile() {
+	public List<Vertex> readFile() {
 		String line;
-		ArrayList<Point> ret = new ArrayList<Point>();
+		ArrayList<Vertex> ret = new ArrayList<Vertex>();
 		StringTokenizer st;
 		int x, y;
 		try {
@@ -39,7 +39,7 @@ public class InputFileReader {
 					st = new StringTokenizer(line, DELIM);
 					x = Integer.parseInt(st.nextToken());
 					y = Integer.parseInt(st.nextToken());
-					ret.add(new Point(x, y));
+					ret.add(new Vertex(x, y ,lnr.getLineNumber()));
 				}
 			} while (line != null);
 		} catch (Exception e) {
