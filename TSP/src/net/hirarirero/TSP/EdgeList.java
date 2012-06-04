@@ -12,37 +12,46 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class EdgeList {
-	private List<Edge> edges = new ArrayList<Edge>();
-	private List<Vertex> pointList;
+	private List<Edge> edges;
 
-	public EdgeList(List<Vertex> ls) {
-		pointList = ls;
+	public List<Edge> getEdges() {
+		return edges;
 	}
 
-	public int size(){
+	public void setEdges(List<Edge> edges) {
+		this.edges = edges;
+	}
+
+	public EdgeList() {
+		edges = new ArrayList<Edge>();
+	}
+
+	public EdgeList(List<Edge> ls) {
+		setEdges(ls);
+	}
+
+	public int size() {
 		return edges.size();
 	}
 
-	public Edge get(int i){
+	public Edge get(int i) {
 		return edges.get(i);
 	}
 
-	public void culcDistance() {
+	public void makeLengthList(List<Vertex> pointList) {
+		edges = new ArrayList<Edge>();
 		int size = pointList.size();
 		Edge e;
-		Set<Integer> s;
-		Point p0, p1;
-		for (int i = 0; i < size-1; i++) {
+		Vertex p0, p1;
+		for (int i = 0; i < size - 1; i++) {
 			p0 = pointList.get(i);
-			for (int j = i+1; j < size; j++) {
-				e = new Edge();
-				s = new HashSet<Integer>();
-				s.add(i);
-				s.add(j);
-				e.pts = s;
-				p1 = pointList.get(j);
-				e.distance = Point.distance(p0.x, p0.y, p1.x, p1.y);
+			for (int j = i + 1; j < size; j++) {
 				if (i != j) {
+					e = new Edge();
+					p1 = pointList.get(j);
+					e.vs.add(p0);
+					e.vs.add(p1);
+					e.length = Point.distance(p0.x, p0.y, p1.x, p1.y);
 					edges.add(e);
 				}
 			}
@@ -50,18 +59,39 @@ public class EdgeList {
 		Collections.sort(edges, new MyComparator());
 	}
 
-	protected void printAll() {
-		for (int i=0;i<edges.size();i++) {
-			System.out.println(edges.get(i));
+	public void printCycle() {
+		int init = 0;
+		Edge e=edges.get(init);
+		Vertex v=e.vs.get(init);
+		List<Vertex> ls = new ArrayList<Vertex>();
+		traverseEdges(v,e,ls);
+	}
+
+	public void print() {
+		for (Edge e : edges) {
+			System.out.println(e);
+		}
+	}
+
+	private void traverseEdges(Vertex v,Edge e,List<Vertex> ls) {
+		Vertex v0=e.vs.get(0);
+		Vertex v1=e.vs.get(1);
+		ls.add(v0);
+		ls.add(v1);
+		System.out.println(v);
+		for (Edge ei : v.edges) {
+			if (ei != e &&!ls.contains(ei)) {
+				Vertex vn = v!=ei.vs.get(1)?ei.vs.get(1):ei.vs.get(0);
+				traverseEdges(vn,ei, ls);
+			}
 		}
 	}
 
 	public class MyComparator implements Comparator<Edge> {
-
 		@Override
 		public int compare(Edge o1, Edge o2) {
 			// TODO 自動生成されたメソッド・スタブ
-			return (int) (o1.distance - o2.distance);
+			return (int) (o1.length - o2.length);
 		}
 
 	}

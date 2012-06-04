@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 
 public class InputFileReader {
 
-	public static final String DELIM = " ";
 	private LineNumberReader lnr;
 
 	public InputFileReader(String pathname) {
@@ -21,7 +20,6 @@ public class InputFileReader {
 		try {
 			lnr = new LineNumberReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 	}
@@ -35,14 +33,13 @@ public class InputFileReader {
 			do {
 				line = lnr.readLine();
 				if (line != null) {
-					st = new StringTokenizer(line, DELIM);
+					st = new StringTokenizer(line, Main.INPUT_DELIM);
 					x = Integer.parseInt(st.nextToken());
 					y = Integer.parseInt(st.nextToken());
 					ret.add(new Vertex(x, y, lnr.getLineNumber()));
 				}
 			} while (line != null);
 		} catch (Exception e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 		return ret;

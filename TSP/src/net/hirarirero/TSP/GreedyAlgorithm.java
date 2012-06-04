@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 public class GreedyAlgorithm {
-	private static final int INITIAL_PT = 0;
 	private EdgeList edgelist;
 	private List<Vertex> inputPts;
 	private List<Edge> result;
@@ -17,37 +16,32 @@ public class GreedyAlgorithm {
 		result = new ArrayList<Edge>();
 	}
 
-	private boolean degLessThan2(Object[] vs) {
-		return (inputPts.get((Integer) vs[0]).edges < 2) && (inputPts.get((Integer) vs[1]).edges < 2);
+	private boolean degLessThan2(Edge e) {
+		return (e.vs.get(0).edges.size() < 2) && (e.vs.get(1).edges.size() < 2);
 	}
 
-	private boolean checkFlag(Object[] vs) {
-		return inputPts.get((Integer) vs[0]).setID != inputPts.get((Integer) vs[1]).setID;
+	private boolean checkFlag(Edge e) {
+		return e.vs.get(0).setID != e.vs.get(1).setID;
 	}
 
-	public void exec() {
+	public EdgeList exec() {
 		int i = 0;
-		Edge e = edgelist.get(i);
-		Object[] pts = e.pts.toArray();
-		double d=0;
-		while (i < edgelist.size()) {
-			if (degLessThan2(pts) && ((checkFlag(pts) ||( i == edgelist.size() - 1)))) {
-				inputPts.get((Integer) pts[0]).setID = inputPts.get((Integer) pts[1]).setID;
-				inputPts.get((Integer) pts[0]).edges += 1;
-				inputPts.get((Integer) pts[1]).edges += 1;
-//				Point p = inputPts.get((Integer) pts[1]);
-//				result.add(p);
-				e.setVertexList(inputPts);
-				System.out.println(e);
+		Edge e;
+		double d = 0;
+		do {
+			e = edgelist.get(i);
+			if (degLessThan2(e)
+					&& ((checkFlag(e) || (i == edgelist.size() - 1)))) {
+				e.vs.get(0).setID = e.vs.get(1).setID;
+				e.vs.get(0).edges.add(e);
+				e.vs.get(1).edges.add(e);
 				result.add(e);
-				d+=e.distance;
+				d += e.length;
+				//System.out.println(e);
 			}
 			i++;
-			if(i<edgelist.size()){
-				e = edgelist.get(i);
-				pts = e.pts.toArray();
-			}
-		}
+		} while (i < edgelist.size());
 		System.out.println(d);
+		return new EdgeList(result);
 	}
 }

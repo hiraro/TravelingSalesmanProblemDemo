@@ -1,27 +1,20 @@
 package net.hirarirero.TSP;
 
-import java.awt.Point;
-import java.util.HashSet;
 import java.util.List;
 
 public class Main {
-
+public static final String OUTPUT_DELIM=" ";
+public static final String 	INPUT_DELIM = " ";
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO 自動生成されたメソッド・スタブ
 		InputFileReader ifr = new InputFileReader("data.txt");
 		List<Vertex> ls = ifr.readFile();
-		EdgeList m = new EdgeList(ls);
-		m.culcDistance();
-		//m.printAll();
-		GreedyAlgorithm ga=new GreedyAlgorithm(ls, m);
-		ga.exec();
-		for (Point p : ls) {
-			//System.out.println(p);
-		}
-
+		EdgeList els = new EdgeList();
+		els.makeLengthList(ls);
+		GreedyAlgorithm ga=new GreedyAlgorithm(ls, els);
+		EdgeList eres =ga.exec();
+		eres.printCycle();
 	}
-
 }
