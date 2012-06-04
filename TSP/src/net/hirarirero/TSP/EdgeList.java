@@ -32,7 +32,7 @@ public class EdgeList {
 		Edge e;
 		Set<Integer> s;
 		Point p0, p1;
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size-1; i++) {
 			p0 = pointList.get(i);
 			for (int j = i+1; j < size; j++) {
 				e = new Edge();
@@ -47,7 +47,7 @@ public class EdgeList {
 				}
 			}
 		}
-		//Collections.sort(edges, new MyComparator());
+		Collections.sort(edges, new MyComparator());
 	}
 
 	protected void printAll() {

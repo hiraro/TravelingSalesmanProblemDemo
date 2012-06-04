@@ -1,6 +1,5 @@
 package net.hirarirero.TSP;
 
-import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -39,7 +38,7 @@ public class InputFileReader {
 					st = new StringTokenizer(line, DELIM);
 					x = Integer.parseInt(st.nextToken());
 					y = Integer.parseInt(st.nextToken());
-					ret.add(new Vertex(x, y ,lnr.getLineNumber()));
+					ret.add(new Vertex(x, y, lnr.getLineNumber()));
 				}
 			} while (line != null);
 		} catch (Exception e) {

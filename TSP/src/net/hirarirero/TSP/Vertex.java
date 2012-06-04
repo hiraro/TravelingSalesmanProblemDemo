@@ -13,6 +13,6 @@ public class Vertex extends Point {
 		setID=id;
 	}
 	public String toString(){
-		return x+" "+y;
+		return x+" "+y ;
 	}
 }
