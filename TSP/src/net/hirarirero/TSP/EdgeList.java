@@ -17,7 +17,6 @@ public class EdgeList {
 
 	public EdgeList(List<Vertex> ls) {
 		pointList = ls;
-		culcDistance();
 	}
 
 	public int size(){
@@ -35,7 +34,7 @@ public class EdgeList {
 		Point p0, p1;
 		for (int i = 0; i < size; i++) {
 			p0 = pointList.get(i);
-			for (int j = i; j < size; j++) {
+			for (int j = i+1; j < size; j++) {
 				e = new Edge();
 				s = new HashSet<Integer>();
 				s.add(i);
@@ -48,12 +47,12 @@ public class EdgeList {
 				}
 			}
 		}
-		Collections.sort(edges, new MyComparator());
+		//Collections.sort(edges, new MyComparator());
 	}
 
 	protected void printAll() {
-		for (Edge e : edges) {
-			System.out.println(e);
+		for (int i=0;i<edges.size();i++) {
+			System.out.println(edges.get(i));
 		}
 	}
 

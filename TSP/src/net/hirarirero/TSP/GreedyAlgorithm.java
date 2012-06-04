@@ -35,9 +35,9 @@ public class GreedyAlgorithm {
 				inputPts.get((Integer) pts[0]).setID = inputPts.get((Integer) pts[1]).setID;
 				inputPts.get((Integer) pts[0]).edges += 1;
 				inputPts.get((Integer) pts[1]).edges += 1;
-				Point p = inputPts.get((Integer) pts[0]);
+				Point p = inputPts.get((Integer) pts[1]);
 				result.add(p);
-				System.out.println(p);
+				//System.out.println(p);
 				d+=e.distance;
 			}
 			e = edgelist.get(i);
