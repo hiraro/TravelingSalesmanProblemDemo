@@ -60,11 +60,8 @@ public class EdgeList {
 	}
 
 	public void printCycle() {
-		int init = 0;
-		Edge e=edges.get(init);
-		Vertex v=e.vs.get(init);
-		List<Vertex> ls = new ArrayList<Vertex>();
-		traverseEdges(v,e,ls);
+		Edge e=edges.get(0);
+		traverseEdges(e,new ArrayList<Vertex>());
 	}
 
 	public void print() {
@@ -73,17 +70,26 @@ public class EdgeList {
 		}
 	}
 
-	private void traverseEdges(Vertex v,Edge e,List<Vertex> ls) {
+	private void traverseEdges(Edge e,List<Vertex> ls) {
 		Vertex v0=e.vs.get(0);
 		Vertex v1=e.vs.get(1);
-		ls.add(v0);
-		ls.add(v1);
-		System.out.println(v);
-		for (Edge ei : v.edges) {
-			if (ei != e &&!ls.contains(ei)) {
-				Vertex vn = v!=ei.vs.get(1)?ei.vs.get(1):ei.vs.get(0);
-				traverseEdges(vn,ei, ls);
-			}
+		v0.edges.remove(e);
+		v1.edges.remove(e);
+		if(ls.size()==0){
+			ls.add(v0);
+			System.out.println(v0);
+			traverseEdges(v0.edges.get(0), ls);
+		}else if(v0.edges.size()==1){
+			ls.add(v0);
+			System.out.println(v0);
+			traverseEdges(v0.edges.get(0), ls);
+		}else if(v1.edges.size()==1){
+			ls.add(v1);
+			System.out.println(v1);
+			traverseEdges(v1.edges.get(0), ls);
+		}else{
+			Vertex v=!ls.contains(v0)?v0:v1;
+			System.out.println(v);
 		}
 	}
 

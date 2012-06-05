@@ -10,6 +10,6 @@ public class Edge {
 	public double length = 0;
 
 	public String toString() {
-		return vs.get(0)+Main.OUTPUT_DELIM+vs.get(1)+Main.OUTPUT_DELIM+length;
+		return vs.get(0)+"\n"+vs.get(1)+"\n";
 	}
 }
