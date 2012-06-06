@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.hirarirero.TSP.graph.VertexUtil;
+import net.hirarirero.TSP.graph.Util;
 import net.hirarirero.TSP.graph.VertexFileReader;
 import net.hirarirero.TSP.graph.Vertex;
 
@@ -22,14 +22,17 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		LOGGER.setLevel(Level.INFO);
-		VertexFileReader ifr = new VertexFileReader("data2.txt");
+		VertexFileReader ifr = new VertexFileReader("data.txt");
 		List<Vertex> in = ifr.readFile();
-		VertexUtil dmap = new VertexUtil(in);
-		Greedy greedy = new Greedy(in, dmap);
+		Util util = new Util(in);
+		Greedy greedy = new Greedy(in, util);
 		greedy.exec();
+		List<Integer> resNo = greedy.getCycleAsNo();
+		List<Vertex> res = greedy.getCycle();
+		Opt2 op=new Opt2(in, res, util);
+		op.exec();
+		res=op.getCycle();
 		try {
-			List<Integer> resNo = greedy.getCycleAsNo();
-			List<Vertex> res = greedy.getCycle();
 			FileWriter fw = new FileWriter(new File("res"));
 			BufferedWriter bw = new BufferedWriter(fw);
 			FileWriter pfw = new FileWriter(new File("plot"));

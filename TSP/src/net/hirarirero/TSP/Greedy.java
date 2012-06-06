@@ -2,17 +2,17 @@ package net.hirarirero.TSP;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.hirarirero.TSP.graph.VertexUtil;
+import net.hirarirero.TSP.graph.Util;
 import net.hirarirero.TSP.graph.Vertex;
 
 public class Greedy {
 	private List<Vertex> cycleAsPoint;
 	private List<Integer> cycleAsNo;
 	private List<Vertex> input;
-	private VertexUtil lengthMap;
+	private Util lengthMap;
 	private double distance;
 
-	public Greedy(List<Vertex> ls, VertexUtil map) {
+	public Greedy(List<Vertex> ls, Util map) {
 		input = ls;
 		lengthMap = map;
 	}
@@ -35,14 +35,14 @@ public class Greedy {
 			Main.LOGGER.info((double) 100 * i / size + "%");
 		}
 		cycleAsPoint.add(input.get(0));
-		distance += lengthMap.distance(v, cycleAsPoint.get(0));
+		distance += lengthMap.length(v, cycleAsPoint.get(0));
 	}
 
 	private void visit(Vertex v0, Vertex v) {
 		v.visited = true;
 		cycleAsPoint.add(v);
 		cycleAsNo.add(v.n);
-		distance += lengthMap.distance(v0, v);
+		distance += lengthMap.length(v0, v);
 	}
 
 	public List<Vertex> getCycle() {

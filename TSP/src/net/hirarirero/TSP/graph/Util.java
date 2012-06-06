@@ -13,14 +13,14 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class VertexUtil {
+public class Util {
 	private List<Vertex> input;
 
-	public VertexUtil(List<Vertex> in) {
+	public Util(List<Vertex> in) {
 		input = in;
 	}
 
-	public double distance(Vertex v0, Vertex v1) {
+	public double length(Vertex v0, Vertex v1) {
 		return Point.distance(v0.x, v0.y, v1.x, v1.y);
 	}
 
@@ -32,7 +32,7 @@ public class VertexUtil {
 			if (i != v.n) {
 				vi = input.get(i);
 				if (!vi.visited) {
-					temp = distance(vi, v);
+					temp = length(vi, v);
 					if (min > temp) {
 						ret = vi;
 						min = temp;
@@ -42,5 +42,7 @@ public class VertexUtil {
 		}
 		return ret;
 	}
+
+	//public Static double distance()
 
 }
