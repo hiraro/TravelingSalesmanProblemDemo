@@ -1,4 +1,4 @@
-package net.hirarirero.TSP;
+package net.hirarirero.TSP.graph;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -47,10 +47,8 @@ public class EdgeList {
 			p0 = pointList.get(i);
 			for (int j = i + 1; j < size; j++) {
 				if (i != j) {
-					e = new Edge();
 					p1 = pointList.get(j);
-					e.vs.add(p0);
-					e.vs.add(p1);
+					e=new Edge(p0, p1);
 					e.length = Point.distance(p0.x, p0.y, p1.x, p1.y);
 					edges.add(e);
 				}
@@ -60,8 +58,8 @@ public class EdgeList {
 	}
 
 	public void printCycle() {
-		Edge e=edges.get(0);
-		traverseEdges(e,new ArrayList<Vertex>());
+		Edge e = edges.get(0);
+		traverseEdges(e, new ArrayList<Vertex>());
 	}
 
 	public void print() {
@@ -70,26 +68,25 @@ public class EdgeList {
 		}
 	}
 
-	private void traverseEdges(Edge e,List<Vertex> ls) {
-		Vertex v0=e.vs.get(0);
-		Vertex v1=e.vs.get(1);
+	private void traverseEdges(Edge e, List<Vertex> ls) {
+		Vertex v0 = e.vs.get(0);
+		Vertex v1 = e.vs.get(1);
 		v0.edges.remove(e);
 		v1.edges.remove(e);
-		if(ls.size()==0){
+		if (ls.size() == 0) {
 			ls.add(v0);
-			System.out.println(v0);
+			System.out.println(e);
 			traverseEdges(v0.edges.get(0), ls);
-		}else if(v0.edges.size()==1){
+		} else if (v0.edges.size() == 1&&v1.edges.size() == 0) {
 			ls.add(v0);
-			System.out.println(v0);
+			System.out.println(e);
 			traverseEdges(v0.edges.get(0), ls);
-		}else if(v1.edges.size()==1){
+		} else if (v1.edges.size() == 1&&v0.edges.size() == 0) {
 			ls.add(v1);
-			System.out.println(v1);
+			System.out.println(e);
 			traverseEdges(v1.edges.get(0), ls);
-		}else{
-			Vertex v=!ls.contains(v0)?v0:v1;
-			System.out.println(v);
+		} else {
+			System.out.println(new Edge(ls.get(ls.size()-1),ls.get(0)));
 		}
 	}
 
