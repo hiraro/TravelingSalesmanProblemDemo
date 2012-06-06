@@ -1,27 +1,34 @@
 package net.hirarirero.TSP.graph;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Edge {
-	public List<Vertex> vs = new ArrayList<Vertex>();
-	public double length = 0;
 
-	public Edge(Vertex v0,Vertex v1){
-		vs.add(v0);
-		vs.add(v1);
+	Set<Integer> vertexs = new HashSet<Integer>();
+
+	public Edge(int v0, int v1) {
+		vertexs.add(v0);
+		vertexs.add(v1);
 	}
-	
+
+	public Edge() {
+
+	}
+
+	public void addVertex(int v) {
+		vertexs.add(v);
+	}
+
+	public void removeVertex(int v) {
+		vertexs.remove(v);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(length);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((vs == null) ? 0 : vs.hashCode());
+		result = prime * result + ((vertexs == null) ? 0 : vertexs.hashCode());
 		return result;
 	}
 
@@ -34,17 +41,12 @@ public class Edge {
 		if (getClass() != obj.getClass())
 			return false;
 		Edge other = (Edge) obj;
-		if (Double.doubleToLongBits(length) != Double.doubleToLongBits(other.length))
-			return false;
-		if (vs == null) {
-			if (other.vs != null)
+		if (vertexs == null) {
+			if (other.vertexs != null)
 				return false;
-		} else if (!vs.equals(other.vs))
+		} else if (!vertexs.equals(other.vertexs))
 			return false;
 		return true;
 	}
 
-	public String toString() {
-		return vs.get(0) + "\n" + vs.get(1) + "\n";
-	}
 }

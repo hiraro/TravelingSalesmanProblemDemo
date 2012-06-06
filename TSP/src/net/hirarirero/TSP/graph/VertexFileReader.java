@@ -30,15 +30,16 @@ public class VertexFileReader {
 		String line;
 		ArrayList<Vertex> ret = new ArrayList<Vertex>();
 		StringTokenizer st;
-		int x, y;
+		int x, y, i = 0;
 		try {
 			line = lnr.readLine();
 			while (line != null) {
 				st = new StringTokenizer(line, Main.INPUT_DELIM);
 				x = Integer.parseInt(st.nextToken());
 				y = Integer.parseInt(st.nextToken());
-				ret.add(new Vertex(x, y));
+				ret.add(new Vertex(x, y, i));
 				line = lnr.readLine();
+				i++;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
