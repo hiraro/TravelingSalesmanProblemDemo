@@ -3,9 +3,8 @@ package net.hirarirero.TSP.graph;
 import java.awt.Point;
 import net.hirarirero.TSP.Main;
 
-public class Vertex extends Point {
+public class Vertex extends Point implements Cloneable {
 	private static final long serialVersionUID = 1L;
-	public boolean visited = false;
 	public int n;
 
 	public Vertex(int x, int y, int n) {
@@ -18,7 +17,6 @@ public class Vertex extends Point {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + n;
-		result = prime * result + (visited ? 1231 : 1237);
 		return result;
 	}
 
@@ -32,8 +30,6 @@ public class Vertex extends Point {
 			return false;
 		Vertex other = (Vertex) obj;
 		if (n != other.n)
-			return false;
-		if (visited != other.visited)
 			return false;
 		return true;
 	}

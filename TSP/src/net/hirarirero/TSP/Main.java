@@ -15,27 +15,37 @@ import net.hirarirero.TSP.graph.Vertex;
 public class Main {
 	public static final String OUTPUT_DELIM = " ";
 	public static final String INPUT_DELIM = " ";
-	public static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	public static final Logger LOGGER = Logger
+			.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static final int LOOP_COUNT = 1;
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		LOGGER.setLevel(Level.INFO);
 		VertexFileReader ifr = new VertexFileReader("data.txt");
 		List<Vertex> in = ifr.readFile();
-		Util util = new Util(in);
-		Greedy greedy = new Greedy(in, util);
-		greedy.exec();
-		List<Integer> resNo = greedy.getCycleAsNo();
+		Greedy greedy = new Greedy(in);
+		long greedyStart = System.currentTimeMillis();
+		for (int i = 0; i < LOOP_COUNT; i++) {
+			greedy = new Greedy(in);
+			greedy.exec();
+		}
+		long greedyEnd = System.currentTimeMillis();
 		List<Vertex> res = greedy.getCycle();
-		Opt2 op=new Opt2(in, res, util);
-		op.exec();
-		res=op.getCycle();
+		double disanceBeforeOpt2 = Util.distance(res);
+		Opt2 opt = new Opt2(in, res);
+		long opt2Start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP_COUNT; i++) {
+			opt = new Opt2(in, res);
+			opt.exec();
+		}
+		long opt2End = System.currentTimeMillis();
+		res = opt.getCycle();
+		double disanceAfterOpt2 = Util.distance(res);
+		List<Integer> resNo = Util.asVertexNum(res);
 		try {
 			FileWriter fw = new FileWriter(new File("res"));
 			BufferedWriter bw = new BufferedWriter(fw);
-			FileWriter pfw = new FileWriter(new File("plot"));
+			FileWriter pfw = new FileWriter(new File("4plot"));
 			BufferedWriter pbw = new BufferedWriter(pfw);
 			for (int i = 0; i < resNo.size(); i++) {
 				bw.write(String.valueOf(resNo.get(i) + 1));
@@ -56,6 +66,11 @@ public class Main {
 			// TODO Ž©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
 			e.printStackTrace();
 		}
-		LOGGER.info("Distance : " + greedy.getDistance());
+		LOGGER.info("AvgElapsedTimeOfGreedyAlgorithm : "
+				+ ((greedyEnd - greedyStart)/(double)LOOP_COUNT));
+		LOGGER.info("AvgElapsedTimeOfOpt-2 : " + ((opt2End - opt2Start)/(double)LOOP_COUNT));
+		LOGGER.info("DistanceBeforeOpt-2 : " + disanceBeforeOpt2);
+		LOGGER.info("DistanceAfterOpt-2 : " + disanceAfterOpt2);
+
 	}
 }

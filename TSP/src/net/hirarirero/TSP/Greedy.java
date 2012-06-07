@@ -1,59 +1,64 @@
 package net.hirarirero.TSP;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import net.hirarirero.TSP.graph.Util;
 import net.hirarirero.TSP.graph.Vertex;
 
 public class Greedy {
-	private List<Vertex> cycleAsPoint;
-	private List<Integer> cycleAsNo;
+	private List<Vertex> cycleAsVertex;
 	private List<Vertex> input;
-	private Util lengthMap;
-	private double distance;
+	private boolean[] visited;
 
-	public Greedy(List<Vertex> ls, Util map) {
-		input = ls;
-		lengthMap = map;
+	public Greedy(List<Vertex> ls) {
+		input=new ArrayList<Vertex>(ls);
 	}
 
 	public void exec() {
-		cycleAsPoint = new ArrayList<Vertex>();
-		cycleAsNo = new ArrayList<Integer>();
-		distance = 0;
-		int i = 0, size = input.size();
+		visited=new boolean[input.size()];
+		cycleAsVertex = new ArrayList<Vertex>();
+		int i = 0;
+		int size = input.size();
 		Vertex v = input.get(0);
-		Vertex vn = lengthMap.findNearest(v);
-		v.visited = true;
-		cycleAsPoint.add(v);
-		cycleAsNo.add(v.n);
+		Vertex vn = findNearest(v);
+		visited[v.n]= true;
+		cycleAsVertex.add(v);
 		while (vn != null) {
-			visit(v, vn);
+			visited[vn.n]=true;
+			cycleAsVertex.add(vn);
 			v = vn;
-			vn = lengthMap.findNearest(v);
+			vn = findNearest(v);
 			i++;
 			Main.LOGGER.info((double) 100 * i / size + "%");
 		}
-		cycleAsPoint.add(input.get(0));
-		distance += lengthMap.length(v, cycleAsPoint.get(0));
+		cycleAsVertex.add(input.get(0));
+		Main.LOGGER.info("Done");
 	}
 
-	private void visit(Vertex v0, Vertex v) {
-		v.visited = true;
-		cycleAsPoint.add(v);
-		cycleAsNo.add(v.n);
-		distance += lengthMap.length(v0, v);
+	public Vertex findNearest(Vertex v) {
+		double min = Double.MAX_VALUE;
+		double temp;
+		Vertex vi;
+		Vertex ret = null;
+		for (int i = 0; i < input.size(); i++) {
+			if (i != v.n) {
+				vi = input.get(i);
+				if (!visited[vi.n]) {
+					temp = Util.length(vi, v);
+					if (min > temp) {
+						ret = vi;
+						min = temp;
+					}
+				}
+			}
+		}
+		return ret;
 	}
+
 
 	public List<Vertex> getCycle() {
-		return cycleAsPoint;
+		return cycleAsVertex;
 	}
 
-	public List<Integer> getCycleAsNo() {
-		return cycleAsNo;
-	}
-
-	public double getDistance() {
-		return distance;
-	}
 }

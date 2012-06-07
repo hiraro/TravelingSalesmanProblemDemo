@@ -1,5 +1,6 @@
 package net.hirarirero.TSP.graph;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,7 +13,7 @@ import net.hirarirero.TSP.Main;
 
 public class VertexFileReader {
 
-	private LineNumberReader lnr;
+	private BufferedReader br;
 
 	public VertexFileReader(String pathname) {
 		this(new File(pathname));
@@ -20,7 +21,7 @@ public class VertexFileReader {
 
 	public VertexFileReader(File file) {
 		try {
-			lnr = new LineNumberReader(new FileReader(file));
+			br = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -32,18 +33,19 @@ public class VertexFileReader {
 		StringTokenizer st;
 		int x, y, i = 0;
 		try {
-			line = lnr.readLine();
+			line = br.readLine();
 			while (line != null) {
 				st = new StringTokenizer(line, Main.INPUT_DELIM);
 				x = Integer.parseInt(st.nextToken());
 				y = Integer.parseInt(st.nextToken());
 				ret.add(new Vertex(x, y, i));
-				line = lnr.readLine();
+				line = br.readLine();
 				i++;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		Main.LOGGER.info("Loaded");
 		return ret;
 	}
 }
