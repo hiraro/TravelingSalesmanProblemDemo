@@ -11,6 +11,11 @@ import java.util.StringTokenizer;
 
 import net.hirarirero.TSP.Main;
 
+/**
+ * 入力頂点ファイルの処理.
+ * @author h1231075
+ *
+ */
 public class VertexFileReader {
 
 	private BufferedReader br;
@@ -27,6 +32,10 @@ public class VertexFileReader {
 		}
 	}
 
+	/**
+	 * 頂点ファイルを一行ずつ読み込む.
+	 * @return	読み込んだ頂点のリスト
+	 */
 	public List<Vertex> readFile() {
 		String line;
 		ArrayList<Vertex> ret = new ArrayList<Vertex>();
@@ -35,6 +44,7 @@ public class VertexFileReader {
 		try {
 			line = br.readLine();
 			while (line != null) {
+				//スペース区切りなので
 				st = new StringTokenizer(line, Main.INPUT_DELIM);
 				x = Integer.parseInt(st.nextToken());
 				y = Integer.parseInt(st.nextToken());
